@@ -12,6 +12,7 @@ public:
     explicit ChessBoardWidget(QWidget *parent = nullptr);
 
     QSize sizeHint() const override;
+    void updateNeurons();
 
 signals:
     void squareClicked(const QString &squareName);

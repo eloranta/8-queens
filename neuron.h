@@ -1,5 +1,7 @@
 #pragma once
 
+#include <vector>
+
 class Neuron
 {
 public:
@@ -10,6 +12,7 @@ public:
     int col() const { return m_col; }
     double value() const { return m_value; }
     static double sigmoid(double x);
+    double update(const std::vector<std::vector<double>> &values);
 
 private:
     int m_row = -1;
