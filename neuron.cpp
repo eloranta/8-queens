@@ -1,5 +1,6 @@
 #include "neuron.h"
 
+#include <cmath>
 #include <random>
 
 namespace {
@@ -21,4 +22,9 @@ Neuron::Neuron(int row, int col)
     , m_col(col)
     , m_value(randomValue())
 {
+}
+
+double Neuron::sigmoid(double x)
+{
+    return 1.0 / (1.0 + std::exp(-x));
 }

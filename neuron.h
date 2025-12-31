@@ -9,6 +9,7 @@ public:
     int row() const { return m_row; }
     int col() const { return m_col; }
     double value() const { return m_value; }
+    static double sigmoid(double x);
 
 private:
     int m_row = -1;
