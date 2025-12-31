@@ -4,16 +4,6 @@
 #include <QPainter>
 
 #include <algorithm>
-#include <random>
-
-namespace {
-double randomZeroToOne()
-{
-    static std::mt19937 rng{std::random_device{}()};
-    static std::uniform_real_distribution<double> dist(0.0, 1.0);
-    return dist(rng);
-}
-} // namespace
 
 ChessBoardWidget::ChessBoardWidget(QWidget *parent)
     : QWidget(parent)
@@ -23,10 +13,7 @@ ChessBoardWidget::ChessBoardWidget(QWidget *parent)
 
     m_values.resize(8);
     for (int row = 0; row < 8; ++row) {
-        m_values[row].resize(8);
-        for (int col = 0; col < 8; ++col) {
-            m_values[row][col] = randomZeroToOne();
-        }
+        m_values[row].assign(8, 0.0);
     }
 
     m_neurons.resize(8);
