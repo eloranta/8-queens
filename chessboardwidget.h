@@ -1,6 +1,9 @@
 #pragma once
 
 #include <QWidget>
+#include <vector>
+
+#include "neuron.h"
 
 class ChessBoardWidget : public QWidget
 {
@@ -23,4 +26,5 @@ private:
 
     int m_selectedRow = -1;
     int m_selectedCol = -1;
+    std::vector<std::vector<Neuron>> m_neurons;
 };

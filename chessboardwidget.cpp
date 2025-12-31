@@ -8,6 +8,14 @@ ChessBoardWidget::ChessBoardWidget(QWidget *parent)
 {
     setMinimumSize(320, 320);
     setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+
+    m_neurons.resize(8);
+    for (int row = 0; row < 8; ++row) {
+        m_neurons[row].reserve(8);
+        for (int col = 0; col < 8; ++col) {
+            m_neurons[row].emplace_back(row, col);
+        }
+    }
 }
 
 QSize ChessBoardWidget::sizeHint() const

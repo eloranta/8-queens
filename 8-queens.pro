@@ -6,8 +6,10 @@ TARGET = 8-queens
 SOURCES += \
     main.cpp \
     mainwindow.cpp \
-    chessboardwidget.cpp
+    chessboardwidget.cpp \
+    neuron.cpp
 
 HEADERS += \
     mainwindow.h \
-    chessboardwidget.h
+    chessboardwidget.h \
+    neuron.h
