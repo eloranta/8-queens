@@ -14,6 +14,8 @@ public:
     static double sigmoid(double x);
     static double positiveInput() { return s_positiveInput; }
     static void setPositiveInput(double value) { s_positiveInput = value; }
+    static double inputGain() { return s_inputGain; }
+    static void setInputGain(double value) { s_inputGain = value; }
     double update(const std::vector<std::vector<double>> &values);
 
 private:
@@ -22,4 +24,5 @@ private:
     double m_value = 0.0;
     double m_sum = 0.0;
     static double s_positiveInput;
+    static double s_inputGain;
 };

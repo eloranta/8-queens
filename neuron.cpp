@@ -5,6 +5,7 @@
 #include <QDebug>
 
 double Neuron::s_positiveInput = 1.0;
+double Neuron::s_inputGain = 1.0;
 
 namespace {
 double randomX()
@@ -65,6 +66,7 @@ double Neuron::update(const std::vector<std::vector<double>> &values)
         m_sum -= values[row][col];
     }
 
-    qDebug() << "Neuron" << m_row << m_col << "sum" << m_sum;
+    m_sum *= s_inputGain;
+    qDebug() << "Neuron" << m_row << m_col << "gain" << s_inputGain << "sum" << m_sum;
     return m_sum;
 }
