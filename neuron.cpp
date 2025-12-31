@@ -4,7 +4,7 @@
 #include <random>
 #include <QDebug>
 
-double Neuron::s_positiveInput = 1.0;
+double Neuron::s_positiveInput = 20.0;
 double Neuron::s_inputGain = 1.0;
 
 namespace {
@@ -36,7 +36,7 @@ double Neuron::sigmoid(double x)
 double Neuron::update(const std::vector<std::vector<double>> &values)
 {
     m_sum = s_positiveInput;
-    qDebug() << "Positive input" << m_sum;
+    // qDebug() << "Positive input" << m_sum;
     const int rows = 8;
     const int cols = 8;
 
@@ -67,6 +67,8 @@ double Neuron::update(const std::vector<std::vector<double>> &values)
     }
 
     m_sum *= s_inputGain;
-    qDebug() << "Neuron" << m_row << m_col << "gain" << s_inputGain << "sum" << m_sum;
+
+    m_sum = sigmoid(m_sum);
+    qDebug() << "Neuron" << m_row << m_col << "sum" << m_sum;
     return m_sum;
 }

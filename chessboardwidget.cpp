@@ -13,7 +13,7 @@ ChessBoardWidget::ChessBoardWidget(QWidget *parent)
 
     m_values.resize(8);
     for (int row = 0; row < 8; ++row) {
-        m_values[row].assign(8, 1.0);
+        m_values[row].assign(8, 0.0);
     }
 
     m_neurons.resize(8);
@@ -34,7 +34,7 @@ void ChessBoardWidget::updateNeurons()
 {
     for (auto &rowValues : m_neurons) {
         for (auto &neuron : rowValues) {
-            neuron.update(m_values);
+            m_values[neuron.row()][neuron.col()] = neuron.update(m_values);
         }
     }
     update();
