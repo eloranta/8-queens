@@ -24,7 +24,6 @@ private:
     QRect boardRect() const;
     QString squareName(int row, int col) const;
 
-    int m_selectedRow = -1;
-    int m_selectedCol = -1;
+    std::vector<std::vector<double>> m_values;
     std::vector<std::vector<Neuron>> m_neurons;
 };

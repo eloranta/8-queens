@@ -3,11 +3,31 @@
 #include <QMouseEvent>
 #include <QPainter>
 
+#include <algorithm>
+#include <random>
+
+namespace {
+double randomZeroToOne()
+{
+    static std::mt19937 rng{std::random_device{}()};
+    static std::uniform_real_distribution<double> dist(0.0, 1.0);
+    return dist(rng);
+}
+} // namespace
+
 ChessBoardWidget::ChessBoardWidget(QWidget *parent)
     : QWidget(parent)
 {
     setMinimumSize(320, 320);
     setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+
+    m_values.resize(8);
+    for (int row = 0; row < 8; ++row) {
+        m_values[row].resize(8);
+        for (int col = 0; col < 8; ++col) {
+            m_values[row][col] = randomZeroToOne();
+        }
+    }
 
     m_neurons.resize(8);
     for (int row = 0; row < 8; ++row) {
@@ -44,7 +64,7 @@ void ChessBoardWidget::paintEvent(QPaintEvent *event)
             const bool isLight = ((row + col) % 2) == 0;
             painter.fillRect(square, isLight ? light : dark);
 
-            const double value = m_neurons[row][col].value();
+            const double value = m_values[row][col];
             const double radius = value * (squareSize * 0.45);
             if (radius > 0.0) {
                 const QPointF center(square.center());
@@ -55,15 +75,6 @@ void ChessBoardWidget::paintEvent(QPaintEvent *event)
         }
     }
 
-    if (m_selectedRow >= 0 && m_selectedCol >= 0) {
-        const int x = rect.left() + m_selectedCol * squareSize;
-        const int y = rect.top() + m_selectedRow * squareSize;
-        QRect square(x, y, squareSize, squareSize);
-        QPen pen(QColor(30, 180, 220));
-        pen.setWidth(3);
-        painter.setPen(pen);
-        painter.drawRect(square.adjusted(1, 1, -1, -1));
-    }
 }
 
 void ChessBoardWidget::mousePressEvent(QMouseEvent *event)
@@ -81,8 +92,12 @@ void ChessBoardWidget::mousePressEvent(QMouseEvent *event)
         return;
     }
 
-    m_selectedRow = row;
-    m_selectedCol = col;
+    if (event->button() == Qt::LeftButton) {
+        m_values[row][col] = std::clamp(m_values[row][col] - 0.1, 0.0, 1.0);
+    } else if (event->button() == Qt::RightButton) {
+        m_values[row][col] = std::clamp(m_values[row][col] + 0.1, 0.0, 1.0);
+    }
+
     update();
 
     emit squareClicked(squareName(row, col));
