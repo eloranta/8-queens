@@ -4,6 +4,8 @@
 #include <random>
 #include <QDebug>
 
+double Neuron::s_positiveInput = 1.0;
+
 namespace {
 double randomX()
 {
@@ -32,6 +34,7 @@ double Neuron::sigmoid(double x)
 
 double Neuron::update(const std::vector<std::vector<double>> &values)
 {
+    qDebug() << "Positive input" << s_positiveInput;
     const int rows = static_cast<int>(values.size());
     if (rows == 0) {
         return 0.0;
@@ -41,33 +44,34 @@ double Neuron::update(const std::vector<std::vector<double>> &values)
         return 0.0;
     }
 
-    double sum = 0.0;
+    const double input = s_positiveInput;
+    double sum = input;
     for (int col = 0; col < cols; ++col) {
         if (col == m_col) {
             continue;
         }
-        sum += values[m_row][col];
+        sum -= values[m_row][col];
     }
     for (int row = 0; row < rows; ++row) {
         if (row == m_row) {
             continue;
         }
-        sum += values[row][m_col];
+        sum -= values[row][m_col];
     }
 
     for (int row = m_row - 1, col = m_col - 1; row >= 0 && col >= 0; --row, --col) {
-        sum += values[row][col];
+        sum -= values[row][col];
     }
     for (int row = m_row + 1, col = m_col + 1; row < rows && col < cols; ++row, ++col) {
-        sum += values[row][col];
+        sum -= values[row][col];
     }
     for (int row = m_row - 1, col = m_col + 1; row >= 0 && col < cols; --row, ++col) {
-        sum += values[row][col];
+        sum -= values[row][col];
     }
     for (int row = m_row + 1, col = m_col - 1; row < rows && col >= 0; ++row, --col) {
-        sum += values[row][col];
+        sum -= values[row][col];
     }
 
-    qDebug() << "Neuron" << m_row << m_col << "sum" << sum;
+    qDebug() << "Neuron" << m_row << m_col << "input" << input << "sum" << sum;
     return sum;
 }
