@@ -20,5 +20,6 @@ private:
     int m_row = -1;
     int m_col = -1;
     double m_value = 0.0;
+    double m_sum = 0.0;
     static double s_positiveInput;
 };

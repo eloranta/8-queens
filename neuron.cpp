@@ -34,44 +34,37 @@ double Neuron::sigmoid(double x)
 
 double Neuron::update(const std::vector<std::vector<double>> &values)
 {
-    qDebug() << "Positive input" << s_positiveInput;
-    const int rows = static_cast<int>(values.size());
-    if (rows == 0) {
-        return 0.0;
-    }
-    const int cols = static_cast<int>(values.front().size());
-    if (m_row < 0 || m_col < 0 || m_row >= rows || m_col >= cols) {
-        return 0.0;
-    }
+    m_sum = s_positiveInput;
+    qDebug() << "Positive input" << m_sum;
+    const int rows = 8;
+    const int cols = 8;
 
-    const double input = s_positiveInput;
-    double sum = input;
     for (int col = 0; col < cols; ++col) {
         if (col == m_col) {
             continue;
         }
-        sum -= values[m_row][col];
+        m_sum -= values[m_row][col];
     }
     for (int row = 0; row < rows; ++row) {
         if (row == m_row) {
             continue;
         }
-        sum -= values[row][m_col];
+        m_sum -= values[row][m_col];
     }
 
     for (int row = m_row - 1, col = m_col - 1; row >= 0 && col >= 0; --row, --col) {
-        sum -= values[row][col];
+        m_sum -= values[row][col];
     }
     for (int row = m_row + 1, col = m_col + 1; row < rows && col < cols; ++row, ++col) {
-        sum -= values[row][col];
+        m_sum -= values[row][col];
     }
     for (int row = m_row - 1, col = m_col + 1; row >= 0 && col < cols; --row, ++col) {
-        sum -= values[row][col];
+        m_sum -= values[row][col];
     }
     for (int row = m_row + 1, col = m_col - 1; row < rows && col >= 0; ++row, --col) {
-        sum -= values[row][col];
+        m_sum -= values[row][col];
     }
 
-    qDebug() << "Neuron" << m_row << m_col << "input" << input << "sum" << sum;
-    return sum;
+    qDebug() << "Neuron" << m_row << m_col << "sum" << m_sum;
+    return m_sum;
 }
