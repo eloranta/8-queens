@@ -43,6 +43,15 @@ void ChessBoardWidget::paintEvent(QPaintEvent *event)
             const QRect square(x, y, squareSize, squareSize);
             const bool isLight = ((row + col) % 2) == 0;
             painter.fillRect(square, isLight ? light : dark);
+
+            const double value = m_neurons[row][col].value();
+            const double radius = value * (squareSize * 0.45);
+            if (radius > 0.0) {
+                const QPointF center(square.center());
+                painter.setPen(Qt::NoPen);
+                painter.setBrush(QColor(30, 30, 30, 170));
+                painter.drawEllipse(center, radius, radius);
+            }
         }
     }
 
